@@ -1,4 +1,4 @@
-//Marcelo Fernández Solano
+//Marcelo Fernández Solano 2019347928
 //Steven Vega Zuñiga
 //NaviTEC
 /* Descripción: NaviTEC es un sistema el cual puede ser utilizado para que los niños registren sus cartas 
@@ -19,6 +19,7 @@ struct ninho{ //Nodo con caracteristicas de un niño
     char fechaNacimiento[15];
     char edad[6];
     char necesidadesEspeciales[50];
+    char comportamientoNinho[20];
     struct nodo *sig;
 };
 
@@ -26,8 +27,8 @@ typedef struct ninho *ListaNinho;
 ListaNinho p, cabeza;
 ListaNinho getnodo();
 
-//int buscarCedula(char cedula[10]);
-void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellido[50], char nombreUsuario[30], char residencia[50], char correo[50], char fechaNacimiento [15], char edad[6], char necesidadesEspeciales[50], int i);
+int buscarCedula(char cedula[10]);
+void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellido[50], char nombreUsuario[30], char residencia[50], char correo[50], char fechaNacimiento [15], char edad[6], char necesidadesEspeciales[50], char comportamietoNinho[20], int i);
 //void consultarMiembro(char cedulaConsulta[8]);
 
 ListaNinho getnodo(){
@@ -39,6 +40,7 @@ ListaNinho getnodo(){
     return p;
 }
 
+//Funcion para buscar si cedula ha sido registrada anteriormente
 int buscarCedula(char cedula[10]){
 	
 	int resultado = 0;
@@ -65,7 +67,8 @@ int buscarCedula(char cedula[10]){
 	return resultado;
 }
 
-void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellido[50], char nombreUsuario[30], char residencia[50], char correo[50], char fechaNacimiento [15], char edad[6], char necesidadesEspeciales[50], int i){
+//Funcion para registrar un niño nuevo
+void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellido[50], char nombreUsuario[30], char residencia[50], char correo[50], char fechaNacimiento [15], char edad[6], char necesidadesEspeciales[50], char comportamientoNinho[20], int i){
 	ListaNinho q;
 
 	if(p == NULL) //En caso de p vacia
@@ -81,6 +84,7 @@ void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellid
 		strcpy(q->fechaNacimiento, fechaNacimiento);
 		strcpy(q->edad, edad);
 		strcpy(q->necesidadesEspeciales, necesidadesEspeciales);
+		strcpy(q->comportamientoNinho, comportamientoNinho);
 		
 		// Persistencia de datos de nuevo miembro en listaMiembros.csv
 		FILE *fp;
@@ -91,7 +95,7 @@ void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellid
 		}
 		
 		else{
-			fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", q->cedula, q->nombre, q->apellido, q->nombreUsuario, q->residencia, q->correo, q->fechaNacimiento, q->edad, q->necesidadesEspeciales);
+			fprintf(fp, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", q->cedula, q->nombre, q->apellido, q->nombreUsuario, q->residencia, q->correo, q->fechaNacimiento, q->edad, q->necesidadesEspeciales, q->comportamientoNinho);
 		
 			fclose(fp); //cierra el archivo y finaliza el guardado en memoria
 			fp = 0;
@@ -99,21 +103,22 @@ void registrarNinho(ListaNinho p, char cedula[10], char nombre[50], char apellid
 			printf("\nMiembro ingresado exitosamente\n");
 		}
 		
-		q->corre = i;
+		/*q->corre = i;
 		q->sig = p->sig;
 		p->sig = q;
-		p = p->sig;
+		p = p->sig;*/
 	}
 }
 
-/*char cedulaConsulta[8];
+//Funcion para consultar niño 
+char cedulaConsulta[10];
 
-void consultarMiembro(char cedulaConsulta[10]){
+void consultarNinho(char cedulaConsulta[10]){
 	
 	int miembrosEncontrados = 0;
 	
 	FILE *fp;
-	fp = fopen("listaMiembros.csv", "r");
+	fp = fopen("listaNinhos.csv", "r");
 	
 	if(fp == NULL){
 		printf("Error al cargar el archivo, intente verificar si el archivo existe o permanece abierto\n");
@@ -141,5 +146,5 @@ void consultarMiembro(char cedulaConsulta[10]){
 	if(miembrosEncontrados == 0){
 		printf("Lo sentimos, la cedula que ingreso no se encuentra registrada\n\n");
 	}
-}*/
+}
 
